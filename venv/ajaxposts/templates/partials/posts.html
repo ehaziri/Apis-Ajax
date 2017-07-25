@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="posts">
+      {% for post in all_posts %}
+        <div class="box">
+          <p>{{ post['description'] }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

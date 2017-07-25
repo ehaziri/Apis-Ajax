@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/styles.css") }}">
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $.get('/getnotes', function(res){
+          $('.notes').html(res);
+        })
+
+
+        $('body').on('submit', 'form', function(){
+          $.post($(this).attr('action'), $(this).serialize(), function(res) {
+             $('.notes').html(res);
+           });
+          $(this).find('input[type="text"]').val("");
+          return false;
+        });
+
+
+       $('.notes').on('change', 'textarea', function(){
+           $.post('/notes/'+$(this).attr('id')+'/update', {'description': $(this).val()}, function(res){
+             $('.notes').html(res);
+           });
+       });
+    });
+    </script>
+  </head>
+  <body>
+    <h1>Notes</h1>
+    <div class="notes">
+    </div>
+
+    <div class="add_note">
+      <form action="/notes/create" method="post">
+        <input type="text" name="title" placeholder="Insert note title here.">
+        <p><input type="submit" value="Add Note"></p>
+      </form>
+    </div>
+</html>
